@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  mongo_db:
+    container_name: database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  index:
+    build: .
+    ports:
+      - "7700:3300"
+    environment:
+      PORT: 7700
+      MONGODB_ATLAS_URL: 'mongodb://mongo_db:27017/grocery'
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
